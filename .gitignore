@@ -43,6 +43,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-/lib/providers
-/lib/services
-/lib/widgets
+/lib/providers/invoice_provider.dart
+/lib/providers/cart_provider.dart
+/lib/services/database_service.dart
+/lib/widgets/invoice_summary.dart

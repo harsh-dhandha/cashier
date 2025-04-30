@@ -1,6 +1,5 @@
-# cashier
-
-A new Flutter project.
+# Cashier
+## Intuitive Cashier Helper
 
 ## Getting Started
 

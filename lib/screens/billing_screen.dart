@@ -8,6 +8,7 @@ import '../providers/invoice_provider.dart';
 import '../widgets/product_tile.dart';
 import '../widgets/invoice_summary.dart';
 import 'product_screen.dart';
+import 'products_list_screen.dart';
 
 class BillingScreen extends StatefulWidget {
   const BillingScreen({Key? key}) : super(key: key);
@@ -102,7 +103,19 @@ class _BillingScreenState extends State<BillingScreen> {
         title: const Text('Cashier'),
         actions: [
           IconButton(
+            icon: const Icon(Icons.inventory),
+            tooltip: 'Products List',
+            onPressed:
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProductsListScreen(),
+                  ),
+                ),
+          ),
+          IconButton(
             icon: const Icon(Icons.history),
+            tooltip: 'Invoice History',
             onPressed: () => Navigator.pushNamed(context, '/history'),
           ),
         ],

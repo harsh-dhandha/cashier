@@ -1,9 +1,16 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../providers/invoice_provider.dart';
 import '../models/invoice.dart';
+import '../services/export_service.dart';
+import '../widgets/invoice_detail_view.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -14,6 +21,7 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   final dateFormat = DateFormat('dd-MM-yyyy HH:mm');
+  final exportService = ExportService();
 
   @override
   void initState() {
@@ -137,12 +145,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     const SizedBox(height: 16),
                     SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(
+                      child: ElevatedButton.icon(
                         onPressed: () {
-                          // TODO: Share or print invoice functionality
                           Navigator.pop(context);
+                          exportService.generateAndSharePDF(context, invoice);
                         },
-                        child: const Text('Print Receipt'),
+                        icon: const Icon(Icons.picture_as_pdf),
+                        label: const Text('Export as PDF'),
                       ),
                     ),
                   ],
@@ -175,9 +184,23 @@ class _HistoryScreenState extends State<HistoryScreen> {
               return ListTile(
                 title: Text('Invoice #${invoice.invoiceId}'),
                 subtitle: Text(dateFormat.format(invoice.timestamp)),
-                trailing: Text(
-                  '₹${invoice.grandTotal.toStringAsFixed(2)}',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '₹${invoice.grandTotal.toStringAsFixed(2)}',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.picture_as_pdf, color: Colors.red),
+                      onPressed:
+                          () => exportService.generateAndSharePDF(
+                            context,
+                            invoice,
+                          ),
+                      tooltip: 'Export as PDF',
+                    ),
+                  ],
                 ),
                 onTap: () => _showInvoiceDetails(invoice),
               );

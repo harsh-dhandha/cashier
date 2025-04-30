@@ -6,6 +6,7 @@ import 'providers/cart_provider.dart';
 import 'providers/invoice_provider.dart';
 import 'screens/billing_screen.dart';
 import 'screens/history_screen.dart';
+import 'screens/products_list_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => const BillingScreen(),
           '/history': (context) => const HistoryScreen(),
+          '/products': (context) => const ProductsListScreen(),
         },
       ),
     );
